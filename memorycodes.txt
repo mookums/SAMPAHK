@@ -1,0 +1,141 @@
+Complied from: https://gtaforums.com/topic/194199-documenting-gta-sa-memory-addresses/?page=4
+
+0xA49960 = start of scm block 
+00B74490 = Pool of CPed structures
+00B74494 = Occupied CVehicle (Player when on foot)
+CPed + 0x540 = Health. (float)
+0x464080 - GetOpcodeParameters()
+0xA43C78 - Where the routine above stores opcode parameters values. Max 16 paramters for an opcode it seems.
+0x53BC80 - LoadGame(char* fileName), initializes all data structures and loads fileName (which is gta.dat).
+0x5B9030 - LoadMapDefinitionFile(char* fileName), parses and loads dat-files, such as default.dat and gta.dat.
+0x550F10 - AllocatePools(), allocates stuff which LimitAdjuster modifies, such as Peds and Buildings.
+0x82119A - malloc(size_t size)
+0x438480 - Looks like cheat processor
+0xB7CE50 - money
+0xBAA420 - wanted level
+0xB70153 - current hour
+0xB70152 - current minute
+CPed + 0x740 - current weapon
+CPed + 0x718 = Current weapon slot. (1 byte)
+CPed + 0x5A0 = Start of weapon data. Each slot has 28 bytes.
+CPed + 0x14 = pointer to XYZ position structure (and rotation)
+0x863984 = gravity
+Player + 368 = x pos
+Player + 372 = y pos
+Player + 376 = z pos
+DWORD(CPed+0x14) + 0x30 = XPos
+DWORD(CPed+0x14) + 0x34 = YPos
+DWORD(CPed+0x14) + 0x38 = ZPos
+DWORD(CPed+0x14) + 0x0 to 0x2C is the rotation matrix
+0x00B6F3B8 = Player CVehicle pointer.
+0x00B6F5F0 = Player pointer. 
+0xBA6784 - Brightness [long]
+0xBA6792 - Legend
+0xBA676C - Radar Mode
+0xBA6769 - Hud Mode
+0xBA678C - Subtitles
+0xBA6830 - Store gallery photos
+0xBA6788 - Draw Distance [long]
+0xBA6794 - Frame limiter
+0xBA6793 - Widescreen
+0xA9AE54 - Visual FX Quality
+0xBA680C - Mip Mapping
+0xBA6814 - Antialiasing [1 = off, 2 = 1, 3 = 2, 4 = 3]
+0xBA6820 - Resolution [640x480=11, 800x400 = 12, 800x600=13, 1024x1068=15]
+0xBA6798 - Radio Volume [0 through 64]
+0xBA6797 - SFX Volume [0 through 64]
+0xBA6799 - Radio Equalizer
+0xBA6795 - Radio Auto-tune
+0xBA67F8 - Usertrack/Play mode [0 = radio, 1 = random]
+0xBA680D - Usertrack/Automatic Media Scan
+0xBA679A - Radio Station [0 through 11, 12 = usertrack player]
+0xBA6818 - Controller Configuration [0 = mouse+keys, 1 = joypad]
+0xB6EC1C - Mouse sensivity [float]
+0xC1CC02 - BYTE - Steer with mouse
+0xC1CC03 - BYTE - Invert mouse vertically
+B793D4: Float, Fat stat
+B793D8: Float, Stamina stat
+B793DC: Float, Muscle stat
+B79496: Float, pistol stat
+B79498: Float, silenced pistol stat
+B7949C: Float, desert eagle stat
+B794A0: Float, shotgun stat
+B794A4: Float, sawn-off shotgun stat
+B794A8: Float, combat shotgun stat
+B794AC: Float, machine pistol stat
+B794B0: Float, smg stat
+B794B4: Float, AK47 stat
+B794B8: Float, M4 stat
+
+0x96C048 Commerce Region, Loading Bay Garage
+0x96C120 Unknown Garage
+0x96C1F8 Unknown Garage near El Corona
+0x96C2D0 Eight Ball Autos near El Corona
+0x96C3A8 Unknown Garage near El Corona
+0x96C480 Player Garage: El Corona
+0x96C558 Unknown Garage near Playe del Seville
+0x96C630 LowRider Tuning Garage in Willowfield
+0x96C708 Pay'n Spray in Idlewood
+0x96C7E0 Player Garage: Johnson House
+0x96C8B8 Pay'n Spray in Temple
+0x96C990 Transfender in Temple
+0x96CA68 Pay'n Spray in Santa Maria Beach
+0x96CB40 Player Garage: Santa Maria Beach
+0x96CC18 Player Garage: Mulholland
+0x96CCF0 Wheel Archangels in Ocean Flats
+0x96CDC8 Unknown Garage in Ocean Flats
+0x96CEA0 Player Garage: Hashbury
+0x96CF78 Transfender near Wang Cars in Doherty
+0x96D050 Pay'n Spray near Wang Cars in Doherty
+0x96D128 Unknown Garage, Loading Bay near Doherty
+0x96D200 Player Garage: Doherty
+0x96D2D8 Unknown Garage in Doherty
+0x96D3B0 Unknown Garage in Chinatown
+0x96D488 Michelles Pay'n Spray in Downtown
+0x96D560 Player Garage: Calton Heights
+0x96D638 Police Garage in DownTown
+0x96D710 Pay'n Spray in Juniper Hollow
+0x96D7E8 Player Garage: Paradiso
+0x96D8C0 Unknown Garage near Emerald Isle
+0x96D998 Airport Plane Garage in Las Venturas
+0x96DA70 Unknown Garage near Camel's Toe
+0x96DB48 Pay'n Spray near Royal Casino
+0x96DC20 Transfender in come-a-lot
+0x96DCF8 Player Garage: Rockshore West
+0x96DDD0 Welding Wedding Bomb-workshop in Emerald Isle
+0x96DEA8 Pay'n Spray in Redsands East
+0x96DF80 Player Garage: Redland West
+0x96E058 Player Garage: Prickle Pine
+0x96E130 Player Garage: Whitewood Estates
+0x96E208 Pay'n Spray in El Quebrados
+0x96E2E0 Pay'n Spray in Fort Carson
+0x96E3B8 Player Garage: Fort Carson
+0x96E490 Player Garage: Derdant Meadows
+0x96E568 Unknown Garage in Bone County
+0x96E640 Airport Garage in Verdant Meadows
+0x96E718 Unknown Garage in Angel Pine
+0x96E7F0 Pay'n Spray in Dillimore
+0x96E8C8 Player Garage: Palomino Creek
+0x96E9A0 Player Garage: Dillimore
+
+CPed + 0x544 = [float] Max health
+CPed + 0x548 = [float] Armor
+CPed + 0x5D8 = [dword] Pistol weapon type (9mm, silenced 9mm, desert eagle = 24)
+CPed + 0x5DC = [dword] Pistol state
+CPed + 0x5E0 = [dword] Pistol ammo in clip
+CPed + 0x5E4 = [dword] Pistol total ammo (including clip)
+CPed + 0x5E8 = [float] Unknown, increases each time you fire your weapon
+CPed + 0x5EC = Unknown, is 0 for me
+CPed + 0x5F0 = Unknown, is 0 for me, the game freezes when you change it to 1
+CPed + 0x5F4 = [dword] Shotgun weapon type (26 = sawn-off)
+CPed + 0x5F8 = [dword] Shotgun state (1 = firing? 2 = reloading)
+CPed + 0x5FC = [dword] Shotgun ammo in clip
+CPed + 0x600 = [dword] Shotgun total ammo (including clip)
+CPed + 0x604 = [float] Unknown, increases each time you fire your weapon, 0 when weapon not active?
+CPed + 0x608 = Unknown, is 0 for me
+CPed + 0x60C = Unknown, is 0 for me
+0xB7CDBC [dword] current weapon slot
+0xBAB22C [4 bytes] = health bar color (RGBA) in bytes
+0xBAB230 [4 bytes] = money font color (RGBA) in bytes
+
+ 
