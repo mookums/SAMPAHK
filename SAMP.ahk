@@ -1,6 +1,7 @@
-﻿; #### SAMP UDF ####
+﻿; #### SAMP UDF-RM ####
 ; SAMP Version: 0.3.7 R1
-; https://github.com/paul-phoenix
+; https://github.com/sampudf/SAMPUDF-RM-for-AutoHotKey
+; https://github.com/mistermuki/SAMP-UDF-for-AutoHotKey
 ; ####################
 
 
@@ -21,24 +22,75 @@ global ERROR_FREE_MEMORY               := 11
 global ERROR_WAIT_FOR_OBJECT           := 12
 global ERROR_CREATE_THREAD             := 13
 
-; GTA Addresses
-global ADDR_ZONECODE                   := 0xA49AD4
-global ADDR_POSITION_X                 := 0xB6F2E4
-global ADDR_POSITION_Y                 := 0xB6F2E8
-global ADDR_POSITION_Z                 := 0xB6F2EC
+
+;GTA Control Block Addresses
 global ADDR_CPED_PTR                   := 0xB6F5F0
+global ADDR_VEHICLE_PTR                := 0xBA18FC
+global ADDR_CVEH_PTR                   := 0xB6F980
+global ADDR_CVEH_PTR2                  := 0xB6F3B8
+global ADDR_CVEH_CONTROL               := 0xB73458
+global ADDR_MENU_PTR                   := 0xBA6748
+
+; GTA CPed Addresses
 global ADDR_CPED_HPOFF                 := 0x540
 global ADDR_CPED_ARMOROFF              := 0x548
-global ADDR_VEHICLE_PTR                := 0xBA18FC
-global ADDR_VEHICLE_HPOFF              := 0x4C0
 global ADDR_CPED_MONEY                 := 0xB7CE50
 global ADDR_CPED_INTID                 := 0xA4ACE8
+; global ADDR_CPED_PEDSTATE              := 0x530
+; global ADDR_CPED_RUNSTATE              := 0x534
+; global ADDR_CPED_ANIM_STATE            := 1247
+; global ADDR_CPED_ANIM_CROUCH           := 1135
+; global ADDR_CPED_ANIM_JUMP             := 1133
+; global ADDR_CPED_ANIM_GEN              := 348
+
+;GTA Car Addresses
+global ADDR_VEHICLE_HPOFF              := 0x4C0
 global ADDR_VEHICLE_DOORSTATE          := 0x4F8
 global ADDR_VEHICLE_ENGINESTATE        := 0x428
 global ADDR_VEHICLE_LIGHTSTATE         := 0x584
 global ADDR_VEHICLE_MODEL              := 0x22
 global ADDR_VEHICLE_TYPE               := 0x590
 global ADDR_VEHICLE_DRIVER             := 0x460
+global ADDR_CVEH_BIKE                  := 0x6C8
+global ADDR_CVEH_BIKE_FTIRE            := 0x65E
+global ADDR_CVEH_BIKE_RTIRE            := 0x65F
+
+
+;GTA Enviroment Addresses
+global ADDR_CURRENT_WEATHER            := 0xC81320
+global ADDR_CURRENT_GRAVITY            := 0x863984
+global ADDR_ZONECODE                   := 0xA49AD4
+global ADDR_POSITION_X                 := 0xB6F2E4
+global ADDR_POSITION_Y                 := 0xB6F2E8
+global ADDR_POSITION_Z                 := 0xB6F2EC
+
+; GTA Menu Addresses
+global ADDR_MOUSE_SENS                 := 0xB6EC1C
+global ADDR_HBAR_COLOR                 := 0xBAB22C
+global ADDR_MFONT_COLOR                := 0xBAB230
+; global ADDR_TEXT_BSTUNT                := 0xBAB040
+; global ADDR_TEXT_TMIDDLE               := 0xBAAEC0
+global ADDR_MENU_CID                   := 0x15D
+global ADDR_MENU_IHOVER                := 0x78D
+global ADDR_MENU_SELECT                := 0x54
+global ADDR_MENU_SWITCH                := 0xE9
+global ADDR_MENU_LANG                  := 0x84
+global ADDR_MENU_MAPX                  := 0x68
+global ADDR_MENU_MAPY                  := 0x6C
+global ADDR_MENU_PLAYINMENU            := 0x5C
+
+; GTA Gun Addresses
+global ADDR_CPED_GUN                   := 0x740
+global ADDR_CPED_PISTOLAMMO            := 0x5E0
+global ADDR_CPED_SHOTGUNAMMO           := 0x5FC
+; global ADDR_GUN_TYPE                   := 00
+; global ADDR_GUN_STATE                  := 04
+; global ADDR_GUN_AMMO                   := 08
+; global ADDR_GUN_RAMMO                  := 12
+
+;GTA Misc. Addresses
+global ADDR_GARAGE_DOORSTATE           := 0x4D
+
 
 global oAirplaneModels                 := [417, 425, 447, 460, 469, 476, 487, 488, 497, 511, 512, 513, 519, 520, 548, 553, 563, 577, 592, 593]
 global oBikeModels                     := [481,509,510]
@@ -129,6 +181,7 @@ global bCheckSizeOnce                  := 1
 ; #     - getIP()                                   get server ip                                                     #
 ; #     - getHostname()                             get server hostname                                               #
 ; #     - countOnlinePlayers()                      get players count                                                 #
+; #     - getTargetPed()                            fetch targeted player                                             #
 ; # ----------------------------------------------------------------------------------------------------------------- #
 ; #     - updateScoreboardDataEx()                  (internal stuff)                                                  #
 ; #     - updateOScoreboardData()                   (internal stuff)                                                  #
@@ -149,6 +202,8 @@ global bCheckSizeOnce                  := 1
 ; #     - getVehicleLightState()                    get vehicle light state                                           #
 ; #     - getVehicleEngineState()                   get vehicle engine state                                          #
 ; #     - getVehicleLockState()                     get vehicle door lock state                                       #
+; #####################################################################################################################
+; #     - GetChatLine(Line, Output, timestamp, color) fetch chat line specified                                       #
 ; #####################################################################################################################
 ; # Coordinates:                                                                                                      #
 ; #     - getCoordinates()                          get local player's position                                       #
@@ -1276,6 +1331,55 @@ isGameIntialized(){
   }
 return
 
+;By GoodBlokeAri aka David_Luchs
+getTargetPed()
+{
+        if(!checkHandles())
+        return 0
+
+        dwAddress := readDWORD(hGTA, 0xB6F3B8)
+    if(ErrorLevel) {
+        ErrorLevel := ERROR_READ_MEMORY
+        return 0
+    }
+        if(!dwAddress)
+                return 0
+
+        dwAddress := readDWORD(hGTA, dwAddress+0x79C)
+    if(ErrorLevel) {
+        ErrorLevel := ERROR_READ_MEMORY
+        return 0
+    }
+
+        ErrorLevel := ERROR_OK
+        return dwAddress
+}
+
+;By GoodBlokeAri aka David_Luchs
+GetChatLine(Line, ByRef Output, timestamp=0, color=0)
+{
+	chatindex := 0
+	FileRead, file, %A_MyDocuments%\GTA San Andreas User Files\SAMP\chatlog.txt
+	loop, Parse, file, `n, `r
+	{
+		if(A_LoopField)
+			chatindex := A_Index
+	}
+	loop, Parse, file, `n, `r
+	{
+		if(A_Index = chatindex - line)
+        {
+			output := A_LoopField
+			break
+		}
+	}
+	file := ""
+	if(!timestamp)
+		output := RegExReplace(output, "U)^\[\d{2}:\d{2}:\d{2}\]")
+	if(!color)
+		output := RegExReplace(output, "Ui)\{[a-f0-9]{6}\}")
+	return
+}
 ;##################################################
 
 /*
