@@ -1,6 +1,9 @@
-## SAMPAHK
+# SAMPAHK
 
 Based off: [SAMPUDF](https://github.com/paul-phoenix/SAMP-UDF-for-AutoHotKey) by paul-phoenix
+
+### [CODE DOCUMENTATION](https://github.com/sampudf/SAMPAHK/wiki)
+
 
 ### Synopsis
 SAMPAHK is an API specifically made to be used inside of [AutoHotKey](https://www.ahkscript.org). A majority of the framework comes from the original repository made by paul-phoenix, linked above.The end goal for SAMPAHK is to be able to provide a more complete platform for SA-MP memory modding in AutoHotKey. If you have any issues with the program, please leave an issue ticket.
