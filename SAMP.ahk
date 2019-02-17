@@ -109,7 +109,9 @@ global FUNC_SAMP_PLAYAUDIOSTR          := 0x62DA0
 global FUNC_SAMP_STOPAUDIOSTR          := 0x629A0
 global FUNC_SAMP_SHOWDIALOG            := 0x6B9C0
 global FUNC_UPDATESCOREBOARD           := 0x8A10
+global FUNC_SAMP_LAST_MESSAGE_PTR      := 0x6DD568A0
 
+global SAMP_LAST_CHAT_MESSAGE_OFFSET   	    := 0x62C6
 global SAMP_INFO_OFFSET                     := 0x21A0F8
 global SAMP_PPOOLS_OFFSET                   := 0x3CD
 global SAMP_PPOOL_PLAYER_OFFSET             := 0x18
@@ -161,6 +163,7 @@ global bCheckSizeOnce                  := 1
 ; #     - getId()                                   get local player id                                               #
 ; #     - sendChatMessage(wText)                    send a message to the server                                      #
 ; #     - addMessageToChatWindow(wText)             add a "private" text to the chatbox                               #
+; #     - getLastChatMessage()                      get the last message on the chatbox                               #
 ; #     - showGameText(wText, dwTime, dwTextsize)   show a text on the sreen                                          #
 ; #     - showDialog(dwStyle, wCaption,             show a dialog-box                                                 #
 ; #                   wInfo, wButton1)                                                                                #
@@ -337,6 +340,25 @@ addMessageToChatWindow(wText) {
 
     ErrorLevel := ERROR_OK
     return true
+}
+
+; get the last message on chat.
+getLastChatMessage(){
+	if(!checkHandles())
+		return ""
+	dwAddress := FUNC_SAMP_LAST_MESSAGE_PTR
+	addr := readDWORD(hGTA, dwAddress) + SAMP_LAST_CHAT_MESSAGE_OFFSET
+	if(ErrorLevel) {
+        ErrorLevel := ERROR_READ_MEMORY
+        return "error read memory"
+    }
+	Message := readString(hGTA, addr, 100)
+	if(ErrorLevel) {
+        ErrorLevel := ERROR_READ_MEMORY
+        return "error read memory"
+    }
+	ErrorLevel := ERROR_OK
+	return Message
 }
 
 ; similar to: http://wiki.sa-mp.com/wiki/GameTextForPlayer
