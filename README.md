@@ -43,10 +43,10 @@ showGameText(getPlayerNameById(varID) "~n~Score: " getPlayerScoreById(varID) "~n
 return
 ```
 ### REQUIREMENTS
+#### [AutoHotKey](https://autohotkey.com) (32bit!)
 
 
 ### COMPILING
-#### - Get [AutoHotKey](https://www.autohotkey.com/)
 #### - Launch "Convert .ahk to .exe" (Example Below)
 
 ![img1](https://i.imgur.com/57TfJX5.png)
