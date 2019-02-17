@@ -1,7 +1,6 @@
-﻿; #### SAMP UDF-RM ####
-; SAMP Version: 0.3.7 R1
-; https://github.com/sampudf/SAMPUDF-RM-for-AutoHotKey
-; https://github.com/mistermuki/SAMP-UDF-for-AutoHotKey
+﻿; #### SAMPAHK ####
+; SOFTWARE VERSION: v0.1.0
+; https://github.com/sampudf/SAMPAHK
 ; ####################
 
 
