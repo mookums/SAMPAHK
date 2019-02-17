@@ -31,6 +31,37 @@ SetWorkingDir %A_ScriptDir%
 #SingleInstance force
 #include %A_ScriptDir%\SAMP.ahk
 
+Hotkey, Enter, Off
+Hotkey, Escape, Off
+
+bchat:=0
+return
+
++T::
+~t::
+Suspend On
+Hotkey, Enter, On
+Hotkey, Escape, On
+Hotkey, t, Off
+return
+
+~NumpadEnter::
+~Enter::
+Suspend Permit
+Suspend Off
+Hotkey, t, On
+Hotkey, Enter, Off
+Hotkey, Escape, Off
+return
+
+~Escape::
+Suspend Permit
+Suspend Off
+Hotkey, t, On
+Hotkey, Enter, Off
+Hotkey, Escape, Off
+return
+
 Numpad1::
 SendInput tName:{Space}
 Suspend On
