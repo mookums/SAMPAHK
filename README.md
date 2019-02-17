@@ -14,7 +14,7 @@ _Currently. only [SA-MP Version 0.3.7 R1.](https://dracoblue.net/downloads/samp-
 ### USAGE 
 #### (MAKE SURE THE SAMP.AHK FILE IS IN THE SAME DIRECTORY AS THE .AHK YOU ARE WRITING)
 
-#### Refercing the API in your script:
+#### Referencing the API in your script:
 ```autohotkey
 SendMode Input
 SetWorkingDir %A_ScriptDir%
