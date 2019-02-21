@@ -1,5 +1,4 @@
-# SAMPAHK
-![Image of Build Status](https://ci.appveyor.com/api/projects/status/ys6gm8pk3xg02pvx?svg=true)
+## SAMPAHK v0.2.0 ![Image of Build Status](https://ci.appveyor.com/api/projects/status/ys6gm8pk3xg02pvx?svg=true)
 
 Based off: [SAMPUDF](https://github.com/paul-phoenix/SAMP-UDF-for-AutoHotKey) by paul-phoenix
 
@@ -44,7 +43,7 @@ return
 +T::
 ~t::
 Suspend On
-Hotkey, Enter, On
+Hotkey, Enter, On8
 Hotkey, Escape, On
 Hotkey, t, Off
 return
