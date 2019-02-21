@@ -1,8 +1,9 @@
 ﻿; #### SAMPAHK ####
-; SOFTWARE VERSION: v0.1.0
 ; https://github.com/sampudf/SAMPAHK
 ; ####################
 
+; UPDATE THIS OR YOUR MERGE WILL BE CLOSED.
+; SOFTWARE VERSION: v0.2.0
 
 
 ; ErrorLevels
