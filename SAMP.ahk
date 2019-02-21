@@ -1,5 +1,5 @@
 ﻿; #### SAMPAHK ####
-; https://github.com/sampudf/SAMPAHK
+; https://github.com/kessec/SAMPAHK
 ; ####################
 
 ; UPDATE THIS OR YOUR MERGE WILL BE CLOSED.
