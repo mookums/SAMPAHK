@@ -1,4 +1,5 @@
 ## SAMPAHK (V0.2)
+
 ![Image of Build Status](https://ci.appveyor.com/api/projects/status/ys6gm8pk3xg02pvx?svg=true)
 
 Based off: [SAMPUDF](https://github.com/paul-phoenix/SAMP-UDF-for-AutoHotKey) by paul-phoenix
@@ -35,48 +36,6 @@ SetWorkingDir %A_ScriptDir%
 #SingleInstance force
 #include %A_ScriptDir%\SAMP.ahk
 
-Hotkey, Enter, Off
-Hotkey, Escape, Off
-
-bchat:=0
-return
-
-+T::
-~t::
-Suspend On
-Hotkey, Enter, On8
-Hotkey, Escape, On
-Hotkey, t, Off
-return
-
-~NumpadEnter::
-~Enter::
-Suspend Permit
-Suspend Off
-Hotkey, t, On
-Hotkey, Enter, Off
-Hotkey, Escape, Off
-return
-
-~Escape::
-Suspend Permit
-Suspend Off
-Hotkey, t, On
-Hotkey, Enter, Off
-Hotkey, Escape, Off
-return
-
-Numpad1::
-SendInput tName:{Space}
-Suspend On
-Hotkey, Enter, On
-Hotkey, Escape, On
-Input varName, V I M,{enter}
-SendInput {end}+{home}{Del}{esc}
-varID := getPlayerIdByName(varName)
-showGameText(getPlayerNameById(varID) "~n~Score: " getPlayerScoreById(varID) "~n~Ping: " getPlayerPingById(varID), 2000, 5)
-return
-```
 ### REQUIREMENTS
 #### [AutoHotKey](https://autohotkey.com) (32bit!)
 
