@@ -1,4 +1,5 @@
-# SAMPAHK
+## SAMPAHK (V0.2)
+
 ![Image of Build Status](https://ci.appveyor.com/api/projects/status/ys6gm8pk3xg02pvx?svg=true)
 
 Based off: [SAMPUDF](https://github.com/paul-phoenix/SAMP-UDF-for-AutoHotKey) by paul-phoenix
@@ -35,12 +36,6 @@ SetWorkingDir %A_ScriptDir%
 #SingleInstance force
 #include %A_ScriptDir%\SAMP.ahk
 
-
-F1::
-  global lCM := getLastChatMessage()
-  addMessageToChatWindow(lCM)
-  return
-```
 ### REQUIREMENTS
 #### [AutoHotKey](https://autohotkey.com) (32bit!)
 
