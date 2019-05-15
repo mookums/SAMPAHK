@@ -1,7 +1,5 @@
 # SAMPAHK
 
-https://discord.gg/DxnUrsC (Discord Link for the Kessec server, in case of need for support.)
-
 Based off: [SAMPUDF](https://github.com/paul-phoenix/SAMP-UDF-for-AutoHotKey) by paul-phoenix
 
 ### [CODE DOCUMENTATION](https://github.com/sampudf/SAMPAHK/wiki)
