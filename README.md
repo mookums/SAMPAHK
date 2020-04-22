@@ -35,6 +35,7 @@ SetWorkingDir %A_ScriptDir%
 #NoEnv
 #SingleInstance force
 #include %A_ScriptDir%\SAMP.ahk
+```
 
 ### REQUIREMENTS
 #### [AutoHotKey](https://autohotkey.com) (32bit!)
