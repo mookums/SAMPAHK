@@ -1,4 +1,4 @@
-## SAMPAHK (V0.2)
+## SAMPAHK (v0.2)
 
 ![Image of Build Status](https://ci.appveyor.com/api/projects/status/ys6gm8pk3xg02pvx?svg=true)
 
