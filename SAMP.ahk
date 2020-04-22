@@ -1,8 +1,9 @@
 ﻿; #### SAMPAHK ####
-; SOFTWARE VERSION: v0.1.0
-; https://github.com/sampudf/SAMPAHK
+; https://github.com/kessec/SAMPAHK
 ; ####################
 
+; UPDATE THIS OR YOUR MERGE WILL BE CLOSED.
+; SOFTWARE VERSION: v0.2.0
 
 
 ; ErrorLevels
@@ -110,6 +111,7 @@ global FUNC_SAMP_STOPAUDIOSTR          := 0x629A0
 global FUNC_SAMP_SHOWDIALOG            := 0x6B9C0
 global FUNC_UPDATESCOREBOARD           := 0x8A10
 
+global SAMP_LAST_CHAT_MESSAGE_OFFSET   	    := 0x62C6
 global SAMP_INFO_OFFSET                     := 0x21A0F8
 global SAMP_PPOOLS_OFFSET                   := 0x3CD
 global SAMP_PPOOL_PLAYER_OFFSET             := 0x18
@@ -160,6 +162,7 @@ global bCheckSizeOnce                  := 1
 ; #     - getUsername()                             get local player name                                             #
 ; #     - getId()                                   get local player id                                               #
 ; #     - sendChatMessage(wText)                    send a message to the server                                      #
+; #	- getLastChatMessage()			    get the last message added to the ChatBox			      #
 ; #     - addMessageToChatWindow(wText)             add a "private" text to the chatbox                               #
 ; #     - showGameText(wText, dwTime, dwTextsize)   show a text on the sreen                                          #
 ; #     - showDialog(dwStyle, wCaption,             show a dialog-box                                                 #
@@ -316,6 +319,25 @@ sendChatMessage(wText) {
 
     ErrorLevel := ERROR_OK
     return true
+}
+
+; get the last message added to the ChatBox.
+getLastChatMessage(){
+	if(!checkHandles())
+		return ""
+	dwAddress := dwSAMP + ADDR_SAMP_CHATMSG_PTR                   
+	currentAddress := readDWORD(hGTA, dwAddress) + SAMP_LAST_CHAT_MESSAGE_OFFSET
+	if(ErrorLevel) {
+        ErrorLevel := ERROR_READ_MEMORY
+        return "Can not read from memory."
+    }
+	Message := readString(hGTA, currentAddress, 150)
+	if(ErrorLevel) {
+        ErrorLevel := ERROR_READ_MEMORY
+        return "Can not read from memory."
+    }
+	ErrorLevel := ERROR_OK
+	return Message
 }
 
 ; similar to: http://wiki.sa-mp.com/wiki/SendClientMessage
