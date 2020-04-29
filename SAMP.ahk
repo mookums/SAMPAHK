@@ -1,4 +1,4 @@
-﻿; #### SAMPAHK ####
+; #### SAMPAHK ####
 ; https://github.com/kessec/SAMPAHK
 ; ####################
 
@@ -322,6 +322,7 @@ sendChatMessage(wText) {
 getLastChatMessage(){
 	if(!checkHandles())
 		return ""
+    
 	dwAddress := dwSAMP + ADDR_SAMP_CHATMSG_PTR
 	currentAddress := readDWORD(hGTA, dwAddress) + SAMP_LAST_CHAT_MESSAGE_OFFSET
 	if(ErrorLevel) {
