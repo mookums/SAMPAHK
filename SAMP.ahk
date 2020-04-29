@@ -1,9 +1,9 @@
 ; #### SAMPAHK ####
 ; https://github.com/kessec/SAMPAHK
-; ####################
+; ################################
 
 ; UPDATE THIS OR YOUR MERGE WILL BE CLOSED.
-; SOFTWARE VERSION: 0.3.0
+; SOFTWARE VERSION: 0.4.0
 
 
 ; ErrorLevels
@@ -22,6 +22,10 @@ global ERROR_FREE_MEMORY               := 11
 global ERROR_WAIT_FOR_OBJECT           := 12
 global ERROR_CREATE_THREAD             := 13
 
+
+; Address Styling:
+; Similar to this: ADDR_POINTER_INFO
+; Example: ADDR_CPED_HPOFF is dependent on the CPED pointer and is the offset for HP information.
 
 ;GTA Control Block Addresses
 global ADDR_CPED_PTR                   := 0xB6F5F0
@@ -322,7 +326,7 @@ sendChatMessage(wText) {
 getLastChatMessage(){
 	if(!checkHandles())
 		return ""
-    
+
 	dwAddress := dwSAMP + ADDR_SAMP_CHATMSG_PTR
 	currentAddress := readDWORD(hGTA, dwAddress) + SAMP_LAST_CHAT_MESSAGE_OFFSET
 	if(ErrorLevel) {
