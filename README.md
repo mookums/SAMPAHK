@@ -1,6 +1,4 @@
-## SAMPAHK (v0.2)
-
-![Image of Build Status](https://ci.appveyor.com/api/projects/status/ys6gm8pk3xg02pvx?svg=true)
+## SAMPAHK (0.3.0)
 
 Based off: [SAMPUDF](https://github.com/paul-phoenix/SAMP-UDF-for-AutoHotKey) by paul-phoenix
 
@@ -11,9 +9,10 @@ Based off: [SAMPUDF](https://github.com/paul-phoenix/SAMP-UDF-for-AutoHotKey) by
 SAMPAHK is an API specifically made to be used inside of [AutoHotKey](https://www.ahkscript.org). A majority of the framework comes from the original repository made by paul-phoenix, linked above.The end goal for SAMPAHK is to be able to provide a more complete platform for SA-MP memory modding in AutoHotKey. If you have any issues with the program, please leave an issue ticket.
 
 ### SUPPORTED SAMP VERSIONS
-_Currently. only [SA-MP Version 0.3.7 R1.](https://dracoblue.net/downloads/samp-client/)_
+_Currently. only [SA-MP Version 0.3.7 R1.](https://dracoblue.net/downloads/samp-client/) and Version 1 of the GTA SA Executable._
 
-### USAGE 
+
+### USAGE
 #### (MAKE SURE THE SAMP.AHK FILE IS IN THE SAME DIRECTORY AS THE .AHK YOU ARE WRITING)
 
 #### Referencing the API in your script:

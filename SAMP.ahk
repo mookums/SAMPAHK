@@ -1,9 +1,9 @@
-﻿; #### SAMPAHK ####
+; #### SAMPAHK ####
 ; https://github.com/kessec/SAMPAHK
 ; ####################
 
 ; UPDATE THIS OR YOUR MERGE WILL BE CLOSED.
-; SOFTWARE VERSION: v0.2.0
+; SOFTWARE VERSION: 0.3.0
 
 
 ; ErrorLevels
@@ -36,12 +36,6 @@ global ADDR_CPED_HPOFF                 := 0x540
 global ADDR_CPED_ARMOROFF              := 0x548
 global ADDR_CPED_MONEY                 := 0xB7CE50
 global ADDR_CPED_INTID                 := 0xA4ACE8
-; global ADDR_CPED_PEDSTATE              := 0x530
-; global ADDR_CPED_RUNSTATE              := 0x534
-; global ADDR_CPED_ANIM_STATE            := 1247
-; global ADDR_CPED_ANIM_CROUCH           := 1135
-; global ADDR_CPED_ANIM_JUMP             := 1133
-; global ADDR_CPED_ANIM_GEN              := 348
 
 ;GTA Car Addresses
 global ADDR_VEHICLE_HPOFF              := 0x4C0
@@ -55,7 +49,6 @@ global ADDR_CVEH_BIKE                  := 0x6C8
 global ADDR_CVEH_BIKE_FTIRE            := 0x65E
 global ADDR_CVEH_BIKE_RTIRE            := 0x65F
 
-
 ;GTA Enviroment Addresses
 global ADDR_CURRENT_WEATHER            := 0xC81320
 global ADDR_CURRENT_GRAVITY            := 0x863984
@@ -68,8 +61,6 @@ global ADDR_POSITION_Z                 := 0xB6F2EC
 global ADDR_MOUSE_SENS                 := 0xB6EC1C
 global ADDR_HBAR_COLOR                 := 0xBAB22C
 global ADDR_MFONT_COLOR                := 0xBAB230
-; global ADDR_TEXT_BSTUNT                := 0xBAB040
-; global ADDR_TEXT_TMIDDLE               := 0xBAAEC0
 global ADDR_MENU_CID                   := 0x15D
 global ADDR_MENU_IHOVER                := 0x78D
 global ADDR_MENU_SELECT                := 0x54
@@ -80,6 +71,7 @@ global ADDR_MENU_MAPY                  := 0x6C
 global ADDR_MENU_PLAYINMENU            := 0x5C
 
 ; GTA Gun Addresses
+global ADDR_GUN_RECOIL                 := 0x858CEC
 global ADDR_CPED_GUN                   := 0x740
 global ADDR_CPED_PISTOLAMMO            := 0x5E0
 global ADDR_CPED_SHOTGUNAMMO           := 0x5FC
@@ -162,7 +154,7 @@ global bCheckSizeOnce                  := 1
 ; #     - getUsername()                             get local player name                                             #
 ; #     - getId()                                   get local player id                                               #
 ; #     - sendChatMessage(wText)                    send a message to the server                                      #
-; #	- getLastChatMessage()			    get the last message added to the ChatBox			      #
+; #	    - getLastChatMessage()			                get the last message added to the ChatBox			                    #
 ; #     - addMessageToChatWindow(wText)             add a "private" text to the chatbox                               #
 ; #     - showGameText(wText, dwTime, dwTextsize)   show a text on the sreen                                          #
 ; #     - showDialog(dwStyle, wCaption,             show a dialog-box                                                 #
@@ -193,6 +185,11 @@ global bCheckSizeOnce                  := 1
 ; #     - getPlayerArmor()                          get ARMOR                                                         #
 ; #     - getPlayerInteriorId()                     get interior id                                                   #
 ; #     - getPlayerMoney()                          get player money                                                  #
+; #####################################################################################################################
+; # Gun Functions :                                                                                                   #
+; #     - editRecoil()                            changes the recoil/spread                                           #
+; #     - getGunType()                            gets the type of gun the local player has in hand.                  #
+; #     - getGunAmmo()                            gets the current ammo in the gun in hand.                           #
 ; #####################################################################################################################
 ; # Vehicle Functions:                                                                                                #
 ; #     - isPlayerInAnyVehicle()                    check if the local player is inside some vehicle                  #
@@ -325,7 +322,8 @@ sendChatMessage(wText) {
 getLastChatMessage(){
 	if(!checkHandles())
 		return ""
-	dwAddress := dwSAMP + ADDR_SAMP_CHATMSG_PTR                   
+    
+	dwAddress := dwSAMP + ADDR_SAMP_CHATMSG_PTR
 	currentAddress := readDWORD(hGTA, dwAddress) + SAMP_LAST_CHAT_MESSAGE_OFFSET
 	if(ErrorLevel) {
         ErrorLevel := ERROR_READ_MEMORY
@@ -1401,6 +1399,16 @@ GetChatLine(Line, ByRef Output, timestamp=0, color=0)
 		output := RegExReplace(output, "Ui)\{[a-f0-9]{6}\}")
 	return
 }
+
+; -1 = Error
+editRecoil(wValue)
+{
+  if(!checkHandles())
+    return -1
+
+    writeFloat(hGTA, ADDR_GUN_RECOIL, wValue)
+}
+
 ;##################################################
 
 /*
@@ -2058,6 +2066,30 @@ readFloat(hProcess, dwAddress) {
     return NumGet(dwRead, 0, "Float")
 }
 
+;internal Stuff
+writeFloat(hProcess, dwAddress, dwValue) {
+    if(!hProcess) {
+        ErrorLevel := ERROR_INVALID_HANDLE
+        return 0
+    }
+
+    VarSetCapacity(dwWrite, 4)    ; float = 4
+    dwRet := DllCall(   "WriteProcessMemory"
+                        , "UInt", hProcess
+                        , "UInt", dwAddress
+                        , "Float*", dwValue
+                        , "Uint", 4
+                        , "Uint*", 0)
+    if(dwRet == 0) {
+        ErrorLevel := ERROR_WRITE_MEMORY
+        return 0
+    }
+
+    ErrorLevel := ERROR_OK
+    return 1
+}
+
+
 ; internal stuff
 readDWORD(hProcess, dwAddress) {
     if(!hProcess) {
@@ -2080,6 +2112,30 @@ readDWORD(hProcess, dwAddress) {
     ErrorLevel := ERROR_OK
     return NumGet(dwRead, 0, "UInt")
 }
+
+; internal stuff
+writeDWORD(hProcess, dwAddress, dwValue) {
+    if(!hProcess) {
+        ErrorLevel := ERROR_INVALID_HANDLE
+        return 0
+    }
+
+    VarSetCapacity(dwWrite, 4)    ; DWORD = 4
+    dwRet := DllCall(   "WriteProcessMemory"
+                        , "UInt", hProcess
+                        , "UInt", dwAddress
+                        , "Str*", dwValue
+                        , "Uint", 4
+                        , "Uint*", 0)
+    if(dwRet == 0) {
+        ErrorLevel := ERROR_WRITE_MEMORY
+        return 0
+    }
+
+    ErrorLevel := ERROR_OK
+    return 1
+}
+
 
 ; internal stuff
 readMem(hProcess, dwAddress, dwLen=4, type="UInt") {
