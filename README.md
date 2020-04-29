@@ -1,7 +1,5 @@
 ## SAMPAHK (v0.3)
 
-![Image of Build Status](https://ci.appveyor.com/api/projects/status/ys6gm8pk3xg02pvx?svg=true)
-
 Based off: [SAMPUDF](https://github.com/paul-phoenix/SAMP-UDF-for-AutoHotKey) by paul-phoenix
 
 ### [CODE DOCUMENTATION](https://github.com/sampudf/SAMPAHK/wiki)
