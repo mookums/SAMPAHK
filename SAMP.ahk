@@ -5,7 +5,6 @@
 ; UPDATE THIS OR YOUR MERGE WILL BE CLOSED.
 ; SOFTWARE VERSION: 0.4.0
 
-
 ; ErrorLevels
 global ERROR_OK                        := 0
 global ERROR_PROCESS_NOT_FOUND         := 1
@@ -1352,7 +1351,6 @@ isGameIntialized(){
     return true
     }
   }
-return
 
 ;By GoodBlokeAri aka David_Luchs
 getTargetPed()
@@ -1411,6 +1409,7 @@ editRecoil(wValue)
     return -1
 
     writeFloat(hGTA, ADDR_GUN_RECOIL, wValue)
+    return
 }
 
 ;##################################################
@@ -1819,6 +1818,7 @@ initZonesAndCities() {
     AddZone("Las Venturas", 869.461, 596.349, -242.990, 2997.060, 2993.870, 900.000)
     AddZone("Red County", -1213.910, -768.027, -242.990, 2997.060, 596.349, 900.000)
     AddZone("Los Santos", 44.615, -2892.970, -242.990, 2997.060, -768.027, 900.000)
+    return
 }
 
 ; internal stuff
@@ -1832,6 +1832,7 @@ AddZone(sName, x1, y1, z1, x2, y2, z2) {
     zone%nZone%_y2 := y2
     zone%nZone%_z2 := z2
     nZone := nZone + 1
+    return
 }
 
 ; internal stuff
@@ -1845,6 +1846,7 @@ AddCity(sName, x1, y1, z1, x2, y2, z2) {
     city%nCity%_y2 := y2
     city%nCity%_z2 := z2
     nCity := nCity + 1
+    return
 }
 
 ; ##### Memory Stuff #####
@@ -2430,3 +2432,5 @@ __unicodeToAnsi(wString, nLen = 0) {
       , "Uint", 0)
     return sString
 }
+
+return
