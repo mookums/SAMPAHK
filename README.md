@@ -1,4 +1,4 @@
-## SAMPAHK (0.4.0)
+## SAMPAHK (0.5.0)
 
 Based off: [SAMPUDF](https://github.com/paul-phoenix/SAMP-UDF-for-AutoHotKey) by paul-phoenix
 

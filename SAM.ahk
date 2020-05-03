@@ -3,11 +3,10 @@
 ; ################################
 
 ; UPDATE THIS OR YOUR MERGE WILL BE CLOSED.
-; SOFTWARE VERSION: 0.4.0
-Version := "Version: 0.4.0"
+; SOFTWARE VERSION: 0.5.0
+Version := "Version: 0.5.0"
 
-
-﻿#NoEnv
+#NoEnv
 SendMode Input
 SetWorkingDir %A_ScriptDir%
 #IfWinActive GTA:SA:MP
@@ -47,9 +46,14 @@ while(true)
  if(!WinExist("GTA:SA:MP")){
     Loop % PIDS.Length()
     {
+      FormatTime, tsVar, T12, Time
       vTemp := PIDS[A_Index]
+      vName := Names[A_Index]
+      FileAppend, %tsVar%: %vName% sucessfully closed.`n, %logLoc%
       Process, Close, %vTemp%
     }
+    FormatTime, tsVar, T12, Time
+    FileAppend, %tsVar%: SAM Core sucessfully closed.`n, %logLoc%
     ExitApp
 }
 }

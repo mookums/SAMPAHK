@@ -3,7 +3,7 @@
 ; ################################
 
 ; UPDATE THIS OR YOUR MERGE WILL BE CLOSED.
-; SOFTWARE VERSION: 0.4.0
+; SOFTWARE VERSION: 0.5.0
 
 ; ErrorLevels
 global ERROR_OK                        := 0
@@ -1306,7 +1306,7 @@ calculateCity(posX, posY, posZ) {
 
 ; sends a string to the debug text file, good for checking if chunks of code work. (Included due to ease of access for me.)
 sendToDebug(tString){
-dbLoc = %A_ScriptDir%\debug.txt
+dbLoc = %A_ScriptDir%\log.txt
 
 FormatTime, tsVar, R
 FileAppend,
@@ -1319,7 +1319,7 @@ FileAppend,
 
 ; logging basic debugging information (Work In Progress)
 logDebug(){
-dbLoc = %A_ScriptDir%\debug.txt
+dbLoc = %A_ScriptDir%\log.txt
 uN := getUsername()
 gC := getCoordinates()
 gPH := getPlayerHealth()
