@@ -1,9 +1,21 @@
-; #### SAMPAHK ####
+;  /$$$$$$   /$$$$$$  /$$      /$$ /$$$$$$$   /$$$$$$  /$$   /$$ /$$   /$$
+; /$$__  $$ /$$__  $$| $$$    /$$$| $$__  $$ /$$__  $$| $$  | $$| $$  /$$/
+;| $$  \__/| $$  \ $$| $$$$  /$$$$| $$  \ $$| $$  \ $$| $$  | $$| $$ /$$/
+;|  $$$$$$ | $$$$$$$$| $$ $$/$$ $$| $$$$$$$/| $$$$$$$$| $$$$$$$$| $$$$$/
+; \____  $$| $$__  $$| $$  $$$| $$| $$____/ | $$__  $$| $$__  $$| $$  $$
+; /$$  \ $$| $$  | $$| $$\  $ | $$| $$      | $$  | $$| $$  | $$| $$\  $$
+;|  $$$$$$/| $$  | $$| $$ \/  | $$| $$      | $$  | $$| $$  | $$| $$ \  $$
+; \______/ |__/  |__/|__/     |__/|__/      |__/  |__/|__/  |__/|__/  \__/
+;
+; ################################
 ; https://github.com/kessec/SAMPAHK
 ; ################################
 
 ; UPDATE THIS OR YOUR MERGE WILL BE CLOSED.
-; SOFTWARE VERSION: 0.5.0
+; KEEP THE VERSION TEXT AT LINE 17 OR YOUR MERGE WILL BE CLOSED.
+/*
+SAMPAHK VERSION: 0.6.0
+*/
 
 ; ErrorLevels
 global ERROR_OK                        := 0
@@ -26,7 +38,7 @@ global ERROR_CREATE_THREAD             := 13
 ; Similar to this: ADDR_POINTER_INFO
 ; Example: ADDR_CPED_HPOFF is dependent on the CPED pointer and is the offset for HP information.
 
-;GTA Control Block Addresses
+; GTA Control Block Addresses
 global ADDR_CPED_PTR                   := 0xB6F5F0
 global ADDR_VEHICLE_PTR                := 0xBA18FC
 global ADDR_CVEH_PTR                   := 0xB6F980
@@ -40,7 +52,7 @@ global ADDR_CPED_ARMOROFF              := 0x548
 global ADDR_CPED_MONEY                 := 0xB7CE50
 global ADDR_CPED_INTID                 := 0xA4ACE8
 
-;GTA Car Addresses
+; GTA Car Addresses
 global ADDR_VEHICLE_HPOFF              := 0x4C0
 global ADDR_VEHICLE_DOORSTATE          := 0x4F8
 global ADDR_VEHICLE_ENGINESTATE        := 0x428
@@ -52,7 +64,7 @@ global ADDR_CVEH_BIKE                  := 0x6C8
 global ADDR_CVEH_BIKE_FTIRE            := 0x65E
 global ADDR_CVEH_BIKE_RTIRE            := 0x65F
 
-;GTA Enviroment Addresses
+; GTA Enviroment Addresses
 global ADDR_CURRENT_WEATHER            := 0xC81320
 global ADDR_CURRENT_GRAVITY            := 0x863984
 global ADDR_ZONECODE                   := 0xA49AD4
@@ -83,7 +95,7 @@ global ADDR_CPED_SHOTGUNAMMO           := 0x5FC
 ; global ADDR_GUN_AMMO                   := 08
 ; global ADDR_GUN_RAMMO                  := 12
 
-;GTA Misc. Addresses
+; GTA Misc. Addresses
 global ADDR_GARAGE_DOORSTATE           := 0x4D
 
 
@@ -1306,51 +1318,11 @@ calculateCity(posX, posY, posZ) {
 
 ; sends a string to the debug text file, good for checking if chunks of code work. (Included due to ease of access for me.)
 sendToDebug(tString){
-dbLoc = %A_ScriptDir%\log.txt
+logLoc = %A_ScriptDir%\..\log.txt
 
-FormatTime, tsVar, R
-FileAppend,
-(
-%tsVar%
-%tString%
-
-), %dbLoc%
-}
-
-; logging basic debugging information (Work In Progress)
-logDebug(){
-dbLoc = %A_ScriptDir%\log.txt
-uN := getUsername()
-gC := getCoordinates()
-gPH := getPlayerHealth()
-iPD := isPlayerDriver()
-gVT := getVehicleType()
-gVHI := getVehicleModelId()
-gIP := getIP()
 FormatTime, tsVar, T12, Time
-
-FileAppend,
-(
-%tsVar%
-%uN%, %gC%, %gPH%, %iPD%, %gVT%, %gVHI%, %gIP%
-ER = %ErrorLevel%
-
-
-), %dbLoc%
+FileAppend, %tsVar%: %tString%.`n, %logLoc%
 }
-return
-
-; uses checkHandles() to check if the game is initalized. (Work In Progress)
-isGameIntialized(){
-  if(!checkHandles())
-  {
-    SendtoDebug("S1, IGI, F-cHC")
-    return false
-  } else {
-    SendtoDebug("S1, IGI, S-cHC")
-    return true
-    }
-  }
 
 ;By GoodBlokeAri aka David_Luchs
 getTargetPed()
@@ -1402,11 +1374,15 @@ GetChatLine(Line, ByRef Output, timestamp=0, color=0)
 	return
 }
 
-; -1 = Error
+; -1 = Error checking handles.
+; -2 = In plane.
 editRecoil(wValue)
 {
   if(!checkHandles())
     return -1
+
+  if(getVehicleType() = 5)
+    return -2
 
     writeFloat(hGTA, ADDR_GUN_RECOIL, wValue)
     return
