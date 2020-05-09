@@ -1,3 +1,4 @@
+
 ;  /$$$$$$   /$$$$$$  /$$      /$$ /$$$$$$$   /$$$$$$  /$$   /$$ /$$   /$$
 ; /$$__  $$ /$$__  $$| $$$    /$$$| $$__  $$ /$$__  $$| $$  | $$| $$  /$$/
 ;| $$  \__/| $$  \ $$| $$$$  /$$$$| $$  \ $$| $$  \ $$| $$  | $$| $$ /$$/
@@ -11,7 +12,6 @@
 ; https://github.com/kessec/SAMPAHK
 ; ################################
 
-; UPDATE THIS OR YOUR MERGE WILL BE CLOSED.
 ; KEEP THE VERSION TEXT AT LINE 17 OR YOUR MERGE WILL BE CLOSED.
 /*
 SAMPAHK VERSION: 0.8.0
@@ -52,6 +52,7 @@ global ADDR_CPED_ARMOROFF              := 0x548
 global ADDR_CPED_MONEY                 := 0xB7CE50
 global ADDR_CPED_INTID                 := 0xA4ACE8
 
+
 ; GTA Car Addresses
 global ADDR_VEHICLE_HPOFF              := 0x4C0
 global ADDR_VEHICLE_DOORSTATE          := 0x4F8
@@ -63,6 +64,7 @@ global ADDR_VEHICLE_DRIVER             := 0x460
 global ADDR_CVEH_BIKE                  := 0x6C8
 global ADDR_CVEH_BIKE_FTIRE            := 0x65E
 global ADDR_CVEH_BIKE_RTIRE            := 0x65F
+
 
 ; GTA Enviroment Addresses
 global ADDR_CURRENT_WEATHER            := 0xC81320
@@ -215,6 +217,11 @@ global bCheckSizeOnce                  := 1
 ; #     - getGunType()                            gets the type of gun the local player has in hand.                  #
 ; #     - getGunAmmo()                            gets the current ammo in the gun in hand.                           #
 ; #####################################################################################################################
+; # Gun Functions :                                                                                                   #
+; #     - editRecoil()                            changes the recoil/spread                                           #
+; #     - getGunType()                            gets the type of gun the local player has in hand.                  #
+; #     - getGunAmmo()                            gets the current ammo in the gun in hand.                           #
+; #####################################################################################################################
 ; # Vehicle Functions:                                                                                                #
 ; #     - isPlayerInAnyVehicle()                    check if the local player is inside some vehicle                  #
 ; #     - isPlayerDriver()                          check if player is driver                                         #
@@ -348,7 +355,7 @@ sendChatMessage(wText) {
 getLastChatMessage(){
 	if(!checkHandles())
 		return ""
-
+    
 	dwAddress := dwSAMP + ADDR_SAMP_CHATMSG_PTR
 	currentAddress := readDWORD(hGTA, dwAddress) + SAMP_LAST_CHAT_MESSAGE_OFFSET
 	if(ErrorLevel) {
@@ -1466,7 +1473,7 @@ editRecoil(wValue)
 {
   if(!checkHandles())
     return -1
-
+    
   if(getVehicleType() = 5)
     return -2
 
