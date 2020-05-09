@@ -14,7 +14,7 @@
 ; UPDATE THIS OR YOUR MERGE WILL BE CLOSED.
 ; KEEP THE VERSION TEXT AT LINE 17 OR YOUR MERGE WILL BE CLOSED.
 /*
-SAMPAHK VERSION: 0.7.0
+SAMPAHK VERSION: 0.8.0
 */
 
 ; ErrorLevels
@@ -91,7 +91,7 @@ global ADDR_MENU_PLAYINMENU            := 0x5C
 
 ; GTA Gun Addresses
 global ADDR_GUN_RECOIL                 := 0x858CEC
-global ADDR_CPED_GUN                   := 0x740
+global ADDR_CPED_GUN_TYPE              := 0x740
 global ADDR_CPED_PISTOLAMMO            := 0x5E0
 global ADDR_CPED_SHOTGUNAMMO           := 0x5FC
 ; global ADDR_GUN_TYPE                   := 00
@@ -1009,7 +1009,7 @@ getPlayerMoney() {
       dwCPedPtr := readDWORD(hGTA, ADDR_CPED_PTR)
       if(ErrorLevel) {
           ErrorLevel := ERROR_READ_MEMORY
-          return -2
+          return -1
       }
 
       dwAddr := dwCPedPtr + ADDR_CPED_ROTZ
@@ -1472,6 +1472,34 @@ editRecoil(wValue)
 
     writeFloat(hGTA, ADDR_GUN_RECOIL, wValue)
     return
+}
+
+
+; Retrieves the gun type you are currently holding.
+; EXAMPLES:
+; 92 = Deagle
+; 97 = MP5
+; -1 = Fist
+; -2 = Error
+getGunType()
+{
+  if(!checkHandles())
+    return -2
+
+    dwCPedPtr := readDWORD(hGTA, ADDR_CPED_PTR)
+    if(ErrorLevel) {
+        ErrorLevel := ERROR_READ_MEMORY
+        return -2
+    }
+
+    dwGunType := readMem(hGta, dwCpedPtr + ADDR_CPED_GUN_TYPE, 4, "Char")
+    if(ErrorLevel) {
+        ErrorLevel := ERROR_READ_MEMORY
+        return -2
+    }
+
+    ErrorLevel := ERROR_OK
+    return dwGunType
 }
 
 ;##################################################
