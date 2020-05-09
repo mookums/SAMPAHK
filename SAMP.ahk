@@ -14,7 +14,7 @@
 ; UPDATE THIS OR YOUR MERGE WILL BE CLOSED.
 ; KEEP THE VERSION TEXT AT LINE 17 OR YOUR MERGE WILL BE CLOSED.
 /*
-SAMPAHK VERSION: 0.6.0
+SAMPAHK VERSION: 0.7.0
 */
 
 ; ErrorLevels
@@ -71,6 +71,10 @@ global ADDR_ZONECODE                   := 0xA49AD4
 global ADDR_POSITION_X                 := 0xB6F2E4
 global ADDR_POSITION_Y                 := 0xB6F2E8
 global ADDR_POSITION_Z                 := 0xB6F2EC
+global ADDR_CPED_X_OFF                 := 0x30
+global ADDR_CPED_Y_OFF                 := 0x34
+global ADDR_CPED_Z_OFF                 := 0x38
+global ADDR_CPED_ROTZ                  := 0x558
 
 ; GTA Menu Addresses
 global ADDR_MOUSE_SENS                 := 0xB6EC1C
@@ -94,6 +98,10 @@ global ADDR_CPED_SHOTGUNAMMO           := 0x5FC
 ; global ADDR_GUN_STATE                  := 04
 ; global ADDR_GUN_AMMO                   := 08
 ; global ADDR_GUN_RAMMO                  := 12
+
+; GTA Cheat Addresses
+global ADDR_CHEAT_INFRUN               := 0xB7CEE4
+
 
 ; GTA Misc. Addresses
 global ADDR_GARAGE_DOORSTATE           := 0x4D
@@ -200,6 +208,7 @@ global bCheckSizeOnce                  := 1
 ; #     - getPlayerArmor()                          get ARMOR                                                         #
 ; #     - getPlayerInteriorId()                     get interior id                                                   #
 ; #     - getPlayerMoney()                          get player money                                                  #
+; #     - getPlayerRotation()                       get the rotation of the player.                                   #
 ; #####################################################################################################################
 ; # Gun Functions :                                                                                                   #
 ; #     - editRecoil()                            changes the recoil/spread                                           #
@@ -221,6 +230,7 @@ global bCheckSizeOnce                  := 1
 ; #####################################################################################################################
 ; # Coordinates:                                                                                                      #
 ; #     - getCoordinates()                          get local player's position                                       #
+; #     - getTargetPedCoordinates()                 get targeted player's position                                    #
 ; # ----------------------------------------------------------------------------------------------------------------- #
 ; #     - calculateZone(X, Y, Z)                    get zone                                                          #
 ; #     - calculateCity(X, Y, Z)                    get city                                                          #
@@ -236,7 +246,6 @@ global bCheckSizeOnce                  := 1
 ; #     - refreshGTA()                                                                                                #
 ; #     - refreshSAMP()                                                                                               #
 ; #     - refreshMemory()                                                                                             #
-; #     - isGameIntialized() -WORK IN PROGRESS-                                                                       #
 ; #     - getPID(szWindow)                                                                                            #
 ; #     - openProcess(dwPID, dwRights)                                                                                #
 ; #     - closeProcess(hProcess)                                                                                      #
@@ -246,6 +255,9 @@ global bCheckSizeOnce                  := 1
 ; #     - readDWORD(hProcess, dwAddress)                                                                              #
 ; #     - readMem(hProcess, dwAddress, dwLen=4, type="UInt")                                                          #
 ; #     - writeString(hProcess, dwAddress, wString)                                                                   #
+; #     - writeFloat(hProcess, dwAddress, dwValue)                                                                    #
+; #     - writeDWORD(hProcess, dwAddress, dwValue)                                                                    #
+; #     - writeMem(hProcess, dwAddress, dwValue, dwLen=4, type="UInt")                                                #
 ; #     - writeRaw(hProcess, dwAddress, data, dwLen)                                                                  #
 ; #     - callWithParams(hProcess, dwFunc, aParams, bCleanupStack = true)                                             #
 ; #     - virtualAllocEx(hProcess, dwSize, flAllocationType, flProtect)                                               #
@@ -257,8 +269,7 @@ global bCheckSizeOnce                  := 1
 ; #     - __unicodeToAnsi(wString, nLen = 0)                                                                          #
 ; #####################################################################################################################
 ; # Debug Functions:                                                                                                  #
-; #    - sendToDebug(tString)                                                                                         #
-; #    - logDebug()                                                                                                   #
+; #    - sendToDebug(tString)                                                                                         #                                                                                 #
 ; #####################################################################################################################
 
 ; ##### SAMP-Functions #####
@@ -984,6 +995,34 @@ getPlayerMoney() {
     return money
 }
 
+
+; Creates an object that stores the Z rotation.
+; Example
+; o := getPlayerRotation()
+; o[1] := Z in Rotation Matrix
+; o[2] := Z in Degrees
+
+  getPlayerRotation() {
+      if(!checkHandles())
+          return -1
+
+      dwCPedPtr := readDWORD(hGTA, ADDR_CPED_PTR)
+      if(ErrorLevel) {
+          ErrorLevel := ERROR_READ_MEMORY
+          return -2
+      }
+
+      dwAddr := dwCPedPtr + ADDR_CPED_ROTZ
+      fRot := readFloat(hGTA, dwAddr)
+      if(ErrorLevel) {
+          ErrorLevel := ERROR_READ_MEMORY
+          return -1
+      }
+
+      ErrorLevel := ERROR_OK
+      return [fRot, fRot * -55.77]
+  }
+
 ; ##### Vehicle Functions #####
 
 ; 1  = local player is inside a vehicle
@@ -1252,6 +1291,53 @@ getCoordinates() {
     ErrorLevel := ERROR_OK
     return [fX, fY, fZ]
 }
+
+; returns an object which contains targeted players position
+; returns an empty string on error
+; example:
+; o := getTargetPedCoordinates()
+; o[1]   //x pos
+; o[2]   //y pos
+; o[3]   //z pos
+getTargetPedCoordinates(){
+      if(!checkHandles())
+          return ""
+
+        dwCPedPtr := getTargetPed()
+          if(ErrorLevel) {
+              ErrorLevel := ERROR_READ_MEMORY
+              return ""
+          }
+
+        dwAddressPos := readDword(hGTA, dwCPedPtr + 0x14)
+        dwAddressX := dwAddressPos + ADDR_CPED_X_OFF
+        dwAddressY := dwAddressPos + ADDR_CPED_Y_OFF
+        dwAddressZ := dwAddressPos + ADDR_CPED_Z_OFF
+
+        tpX := readFloat(hGTA, dwAddressX)
+        if(ErrorLevel) {
+            ErrorLevel := ERROR_READ_MEMORY
+            return ""
+        }
+
+        tpY := readFloat(hGTA, dwAddressY)
+        if(ErrorLevel) {
+            ErrorLevel := ERROR_READ_MEMORY
+            return ""
+        }
+
+
+        tpZ := readFloat(hGTA, dwAddressZ)
+        if(ErrorLevel) {
+            ErrorLevel := ERROR_READ_MEMORY
+            return ""
+        }
+
+
+        ErrorLevel := ERROR_OK
+        return [tpX, tpY, tpZ]
+  }
+
 
 ; pass coordinates to get a zone name or get an empty string on error
 calculateZone(posX, posY, posZ) {
@@ -2131,6 +2217,29 @@ readMem(hProcess, dwAddress, dwLen=4, type="UInt") {
                         , "UInt",  hProcess
                         , "UInt",  dwAddress
                         , "Str",   dwRead
+                        , "UInt",  dwLen
+                        , "UInt*", 0)
+    if(dwRet == 0) {
+        ErrorLevel := ERROR_READ_MEMORY
+        return 0
+    }
+
+    ErrorLevel := ERROR_OK
+    return NumGet(dwRead, 0, type)
+}
+
+;interal stuff
+writeMem(hProcess, dwAddress, dwValue, dwLen=4, type="UInt") {
+    if(!hProcess) {
+        ErrorLevel := ERROR_INVALID_HANDLE
+        return 0
+    }
+
+    VarSetCapacity(dwRead, dwLen)
+    dwRet := DllCall(    "WriteProcessMemory"
+                        , "UInt",  hProcess
+                        , "UInt",  dwAddress
+                        , "Str*",  dwValue
                         , "UInt",  dwLen
                         , "UInt*", 0)
     if(dwRet == 0) {
