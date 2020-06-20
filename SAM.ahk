@@ -12,7 +12,7 @@
 ; ################################
 
 ; UPDATE THIS OR YOUR MERGE WILL BE CLOSED.
-Version := "SAM CORE VERSION: 0.6.0"
+Version := "SAM CORE VERSION: 1.0.0"
 
 #NoEnv
 SendMode Input
