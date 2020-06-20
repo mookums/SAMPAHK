@@ -1,10 +1,10 @@
-## SAMPAHK (0.8.0)
-## SAM (0.6.0)
+## SAMPAHK (1.0.0)
+## SAM (1.0.0)
 
 
 Based off: [SAMPUDF](https://github.com/paul-phoenix/SAMP-UDF-for-AutoHotKey) by paul-phoenix
 
-### [CODE DOCUMENTATION](https://github.com/sampudf/SAMPAHK/wiki)
+### [CODE DOCUMENTATION](https://github.com/sampudf/SAMPAHK/wiki) - INCOMPLETE
 
 
 ### Synopsis
@@ -13,9 +13,12 @@ SAMPAHK is an API specifically made to be used inside of [AutoHotKey](https://ww
 ### SUPPORTED SAMP VERSIONS
 _Currently. only [SA-MP Version 0.3.7 R1.](https://dracoblue.net/downloads/samp-client/) and Version 1 of the GTA SA Executable._
 
+### IN ORDER FOR THIS TO WORK, YOU MUST MUST MUST BE USING [AutoHotKey](https://autohotkey.com) (32 BIT)
+Do not make issues or talk about errors, it will not work in 64 bit.
 
-### USAGE
-#### (MAKE SURE THE SAMP.AHK FILE IS IN THE SAME DIRECTORY AS THE .AHK YOU ARE WRITING)
+
+### USAGE (WHEN WRITING)
+#### (MAKE SURE THE MOD YOU ARE WRITING IS IN SAM_MODS WITH SAMP.AHK)
 
 #### Referencing the API in your script:
 ```autohotkey
@@ -37,16 +40,3 @@ SetWorkingDir %A_ScriptDir%
 #SingleInstance force
 #include %A_ScriptDir%\SAMP.ahk
 ```
-
-### REQUIREMENTS
-#### [AutoHotKey](https://autohotkey.com) (32bit!)
-
-
-### COMPILING
-#### - Launch "Convert .ahk to .exe" (Example Below)
-
-![img1](https://i.imgur.com/57TfJX5.png)
-#### - Plug in "input" with your .ahk file and output with your final .exe file.
-#### - Turn MPRESS off.
-#### - Compile script with ANSI/UNICODE32.
-![img2](https://i.imgur.com/XWLroJX.png)
