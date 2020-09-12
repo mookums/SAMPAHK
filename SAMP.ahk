@@ -14,7 +14,7 @@
 
 ; KEEP THE VERSION TEXT AT LINE 17 OR YOUR MERGE WILL BE CLOSED.
 /*
-SAMPAHK VERSION: 1.0.0
+SAMPAHK VERSION: 1.1.0
 */
 
 ; ErrorLevels
@@ -1467,6 +1467,7 @@ GetChatLine(Line, ByRef Output, timestamp=0, color=0)
 	return
 }
 
+;  0 = Successful.
 ; -1 = Error checking handles.
 ; -2 = In plane.
 editRecoil(wValue)
@@ -1478,7 +1479,7 @@ editRecoil(wValue)
     return -2
 
     writeFloat(hGTA, ADDR_GUN_RECOIL, wValue)
-    return
+    return 0
 }
 
 
@@ -1509,21 +1510,9 @@ getGunType()
     return dwGunType
 }
 
-;##################################################
-
-/*
-;buggy
-getCurrentZonecode() {
-    if(!checkHandles())
-        return ""
-
-    return readString(hGTA, ADDR_ZONECODE, 5)
-}
-*/
-
 ;###############  INTERNAL FUNCTIONS
 
-; internal stuff
+; Loads the coords for all the zones in the memory.
 initZonesAndCities() {
     if(bInitZaC)
         return
@@ -1948,7 +1937,7 @@ AddCity(sName, x1, y1, z1, x2, y2, z2) {
 
 ; ##### Memory Stuff #####
 
-; internal stuff
+; Check the handles of the script to ensure that it is running in 32 bit.
 checkHandles() {
     if(bCheckSizeOnce)
     {
@@ -2407,6 +2396,7 @@ callWithParams(hProcess, dwFunc, aParams, bCleanupStack = true) {
 }
 
 ; internal stuff
+; https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualallocex
 virtualAllocEx(hProcess, dwSize, flAllocationType, flProtect) {
     if(!hProcess) {
         ErrorLevel := ERROR_INVALID_HANDLE
@@ -2430,6 +2420,7 @@ virtualAllocEx(hProcess, dwSize, flAllocationType, flProtect) {
 }
 
 ; internal stuff
+; https://docs.microsoft.com/en-us/windows/win32/api/memoryapi/nf-memoryapi-virtualfreeex
 virtualFreeEx(hProcess, lpAddress, dwSize, dwFreeType) {
     if(!hProcess) {
         ErrorLevel := ERROR_INVALID_HANDLE
@@ -2452,6 +2443,7 @@ virtualFreeEx(hProcess, lpAddress, dwSize, dwFreeType) {
 }
 
 ; internal stuff
+; https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createremotethread
 createRemoteThread(hProcess, lpThreadAttributes, dwStackSize, lpStartAddress, lpParameter, dwCreationFlags, lpThreadId) {
     if(!hProcess) {
         ErrorLevel := ERROR_INVALID_HANDLE
