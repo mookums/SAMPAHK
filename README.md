@@ -1,19 +1,17 @@
-## SAMPAHK (1.0.0)
-
-
-Based off: [SAMPUDF](https://github.com/paul-phoenix/SAMP-UDF-for-AutoHotKey) by paul-phoenix
+## SAMPAHK (1.1.0)
 
 ### [CODE DOCUMENTATION](https://github.com/sampudf/SAMPAHK/wiki) - INCOMPLETE
 
 
 ### Synopsis
-SAMPAHK is an library specifically made to be used inside of [AutoHotKey](https://www.ahkscript.org). A part of the library comes from the original repository made by paul-phoenix, linked above. The end goal for SAMPAHK is to be able to provide a more complete platform for SA-MP memory modding in AutoHotKey. If you have any issues with the program, please leave an issue ticket.
+SAMPAHK is an library specifically made to be used inside of [AutoHotKey](https://www.ahkscript.org). A part of the library comes from [SAMPUDF](https://github.com/paul-phoenix/SAMP-UDF-for-AutoHotKey) made by paul-phoenix, linked above. The end goal for SAMPAHK is to be able to provide a more complete platform for SA-MP memory modding in AutoHotKey. If you have any issues with the program, please leave an issue ticket.
+
 
 ### SUPPORTED SAMP VERSIONS
 _Currently. only [SA-MP Version 0.3.7 R1.](https://dracoblue.net/downloads/samp-client/) and Version 1 of the GTA SA Executable._
 
 ### IN ORDER FOR THIS TO WORK, YOU MUST MUST MUST BE USING [AutoHotKey](https://autohotkey.com) (32 BIT)
-Do not make issues or talk about errors, it will not work in 64 bit.
+Do not make issues or talk about errors in 64 bit. The library will not work in 64 bit.
 
 
 ### USAGE (WHEN WRITING)
