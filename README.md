@@ -14,7 +14,7 @@ Do not make issues or talk about errors in 64 bit. The library will not work in 
 
 
 ### USAGE (WHEN WRITING)
-#### (MAKE SURE THE MOD YOU ARE WRITING IS IN SAM_MODS WITH SAMP.AHK)
+#### (MAKE SURE THE MOD YOU ARE WRITING IS IN THE SAM_MODS WITH SAMP.AHK)
 
 #### Referencing the API in your script:
 ```autohotkey
